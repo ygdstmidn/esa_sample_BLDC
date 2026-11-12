@@ -8,7 +8,7 @@ class BLDC_ESC_SKYWALKER
    public:
     BLDC_ESC_SKYWALKER(const PinName pin);
     void calibration() const;
-    void write(const float value) const;
+    void write(float value) const;
 
    private:
     static constexpr uint32_t ESC_FREQUENCY = 50;
@@ -21,39 +21,36 @@ BLDC_ESC_SKYWALKER::BLDC_ESC_SKYWALKER(PinName pin) : _pin(pin)
 {
 }
 
-/// @attention 6000ms delay!! ピッ．．．ピッ．．．のタイミングで使用すること！！
+/// @attention 5200ms delay!! ピッ．．．ピッ．．．のタイミングで使用すること！！
 void BLDC_ESC_SKYWALKER::calibration() const
 {
-    if (_pin == NC)
-    {
-        Serial.println("BLDC_ESC_SKYWALKER: pin is not connected");
-        return;
-    }
-    pinMode(_pin, OUTPUT);
-    digitalWrite(_pin, LOW);
-    pwm_start(_pin, ESC_FREQUENCY, ESC_MAX, RESOLUTION_16B_COMPARE_FORMAT);
-    delay(3000);
-    pwm_start(_pin, ESC_FREQUENCY, ESC_MIN, RESOLUTION_16B_COMPARE_FORMAT);
-    delay(3000);
+    write(1.0f);
+    delay(1500);
+    write(0.0f);
+    delay(4700);
 }
 
 /// value:0~1
-void BLDC_ESC_SKYWALKER::write(const float value) const
+void BLDC_ESC_SKYWALKER::write(float value) const
 {
-    float value_ = value; // make copy
+    if (_pin == NC)
+    {
+        return;
+    }
+
     if (isnan(value))
     {
         return;
     }
-    if (value_ > 1.0f)
+    if (value > 1.0f)
     {
-        value_ = 1.0f;
+        value = 1.0f;
     }
-    else if (value_ < 0.0f)
+    else if (value < 0.0f)
     {
-        value_ = 0.0f;
+        value = 0.0f;
     }
-    int pwmValue = (ESC_MAX - ESC_MIN) * value_ + ESC_MIN;
+    int pwmValue = (ESC_MAX - ESC_MIN) * value + ESC_MIN;
     pwm_start(_pin, ESC_FREQUENCY, pwmValue, RESOLUTION_16B_COMPARE_FORMAT);
 }
 
