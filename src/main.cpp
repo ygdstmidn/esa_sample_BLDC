@@ -13,7 +13,7 @@ void setup()
     Serial.println(__TIME__);
 
 #if (1) // calibration 必要に応じてif(0)とし，この工程をスキップします
-    Serial.println("pless any key to start calibration...");
+    Serial.println("pless any key to start calibration");
     while (!Serial.available())
     {
     }
