@@ -7,14 +7,14 @@ class BLDC_ESC_SKYWALKER
 {
    public:
     BLDC_ESC_SKYWALKER(const PinName pin);
-    void calibration();
+    void calibration() const;
     void write(const float value) const;
 
    private:
     static constexpr uint32_t ESC_FREQUENCY = 50;
     static constexpr uint32_t ESC_MIN = (65535 / 20); // 50hz(20ms),1ms
     static constexpr uint32_t ESC_MAX = (65535 / 10); // 50hz(20ms),2ms
-    PinName _pin;
+    const PinName _pin;
 };
 
 BLDC_ESC_SKYWALKER::BLDC_ESC_SKYWALKER(PinName pin) : _pin(pin)
@@ -22,7 +22,7 @@ BLDC_ESC_SKYWALKER::BLDC_ESC_SKYWALKER(PinName pin) : _pin(pin)
 }
 
 /// @attention 6000ms delay!! ピッ．．．ピッ．．．のタイミングで使用すること！！
-void BLDC_ESC_SKYWALKER::calibration()
+void BLDC_ESC_SKYWALKER::calibration() const
 {
     if (_pin == NC)
     {
