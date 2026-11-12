@@ -7,7 +7,7 @@ class BLDC_ESC_SKYWALKER
 {
    public:
     BLDC_ESC_SKYWALKER(const PinName pin);
-    void init();
+    void calibration();
     void write(const float value) const;
 
    private:
@@ -15,7 +15,6 @@ class BLDC_ESC_SKYWALKER
     constexpr static uint32_t ESC_MIN = (65535 / 20); // 50hz(20ms),1ms
     constexpr static uint32_t ESC_MAX = (65535 / 10); // 50hz(20ms),2ms
     PinName _pin;
-    bool _setupDone = false;
 };
 
 BLDC_ESC_SKYWALKER::BLDC_ESC_SKYWALKER(PinName pin) : _pin(pin)
@@ -23,7 +22,7 @@ BLDC_ESC_SKYWALKER::BLDC_ESC_SKYWALKER(PinName pin) : _pin(pin)
 }
 
 /// @attention 6000ms delay!! ピッ．．．ピッ．．．のタイミングで使用すること！！
-void BLDC_ESC_SKYWALKER::init()
+void BLDC_ESC_SKYWALKER::calibration()
 {
     if (_pin == NC)
     {
@@ -36,17 +35,11 @@ void BLDC_ESC_SKYWALKER::init()
     delay(3000);
     pwm_start(_pin, ESC_FREQUENCY, ESC_MIN, RESOLUTION_16B_COMPARE_FORMAT);
     delay(3000);
-    _setupDone = true;
 }
 
 /// value:0~1
 void BLDC_ESC_SKYWALKER::write(const float value) const
 {
-    if (_setupDone == false)
-    {
-        Serial.println("BLDC_ESC_SKYWALKER: not initialized");
-        return;
-    }
     float value_ = value; // make copy
     if (isnan(value))
     {

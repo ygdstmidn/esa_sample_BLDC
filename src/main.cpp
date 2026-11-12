@@ -12,18 +12,21 @@ void setup()
     Serial.println(__DATE__);
     Serial.println(__TIME__);
 
-    Serial.println("pless any key to start");
+#if (1) // calibration 必要に応じてif(0)とし，この工程をスキップします
+    Serial.println("pless any key to start calibration...");
     while (!Serial.available())
     {
     }
-    Serial.println("Starting...");
-    esc.init();
-    Serial.println("init done");
-
+    Serial.println("calibration starting...");
+    esc.calibration();
+    Serial.println("calibration done");
     while (Serial.available())
     {
         Serial.read();
     }
+#endif
+
+    esc.write(0.0f); // start output with 0% power
 }
 
 void loop()
