@@ -11,9 +11,9 @@ class BLDC_ESC_SKYWALKER
     void write(const float value) const;
 
    private:
-    constexpr static uint32_t ESC_FREQUENCY = 50;
-    constexpr static uint32_t ESC_MIN = (65535 / 20); // 50hz(20ms),1ms
-    constexpr static uint32_t ESC_MAX = (65535 / 10); // 50hz(20ms),2ms
+    static constexpr uint32_t ESC_FREQUENCY = 50;
+    static constexpr uint32_t ESC_MIN = (65535 / 20); // 50hz(20ms),1ms
+    static constexpr uint32_t ESC_MAX = (65535 / 10); // 50hz(20ms),2ms
     PinName _pin;
 };
 
