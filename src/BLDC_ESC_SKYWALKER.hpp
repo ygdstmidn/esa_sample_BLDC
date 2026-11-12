@@ -48,7 +48,7 @@ void BLDC_ESC_SKYWALKER::write(const float value) const
         return;
     }
     float value_ = value; // make copy
-    if (value_ == NAN)
+    if (isnan(value))
     {
         return;
     }
