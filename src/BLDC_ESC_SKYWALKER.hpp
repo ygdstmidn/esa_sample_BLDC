@@ -1,5 +1,5 @@
-#ifndef __BLDC_ESC_HPP__
-#define __BLDC_ESC_HPP__
+#ifndef __BLDC_ESC_SKYWALKER_HPP__
+#define __BLDC_ESC_SKYWALKER_HPP__
 
 #include <Arduino.h>
 
@@ -57,4 +57,4 @@ void BLDC_ESC_SKYWALKER::write(const float value) const
     pwm_start(_pin, ESC_FREQUENCY, pwmValue, RESOLUTION_16B_COMPARE_FORMAT);
 }
 
-#endif // __BLDC_ESC_HPP__
+#endif // __BLDC_ESC_SKYWALKER_HPP__
